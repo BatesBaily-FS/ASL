@@ -1,0 +1,3 @@
+bundle install
+docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:3.3 bundle instal
+bundle lock -add-platform aarch64-linux
