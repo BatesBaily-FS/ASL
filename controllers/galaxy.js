@@ -1,10 +1,10 @@
 const { Galaxy } = require('../models');
 
 	
-async function index(req, res) {
+	async function index(req, res) {
 	try {
 	const galaxies = await Galaxy.findAll();
-	res.status(200).json(galaxies);
+	res.render('galaxies/index.html.twig', { galaxies });
 	} catch (error) {
 	res.status(500).json({ message: error.message });
 	}
@@ -13,8 +13,8 @@ async function index(req, res) {
 async function create(req,res) {
 	try {
 	const {name, size, description} = req.body;
-	const galaxy = await Galaxy.create({ name, size, description });
-	res.redirect('/galaxies', 201);
+	const newGalaxy = await Galaxy.create({ name, size, description });
+	res.status(302).redirect('/galaxies');
 	} catch (error) {
 	res.status(400).json({ message: error.message});
 	}
@@ -26,14 +26,30 @@ async function show(req,res) {
 	if (!galaxy) {
 	return res.status(404).json({ message: 'Galaxy not found' });
 	}
-	const updatedGalaxy = await Galaxy.findByPk(id);
-	res.status(200).json(updatedGalaxy);
-	} catch (error) {
+	res.render('galaxies/show.html.twig', {galaxy });
+		} catch (error) {
 	res.status(400).json({ message: error.message });
 	}
 }
 
-async function destroy(req, res) {
+async function update(req, res) {
+	try {
+	const { id } = req.params;
+	const { name, size, description } = req.body;
+	const updatedGalaxy = await Galaxy.update(
+		{ name, size, description },
+		{ where: { id }, returning: true }
+	);
+	if (updatedGalaxy[0] === 0) {
+		return res.status(404).json({ message: 'Galaxy not found' });
+	}
+	res.status(302).redirect(`/galaxies/${req.params.id}`);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+}
+
+async function remove(req, res) {
 	try {
 	const { id } = req.params;
 	const deleted = await Galaxy.destroy({
@@ -42,10 +58,22 @@ async function destroy(req, res) {
 	if (deleted === 0 ) {
 	return res.status(404).json({ message: 'Galaxy not found'});
 	} 
-	res.redirect('/galaxies', 204);
+	res.status(302).redirect('/galaxies');
 	} catch (error) {
 	res.status(500).json({ message: error.message });
 		}
 	}
 
-module.exports = { index, create, show, destroy }
+async function form(req, res) {
+		const { id } = req.params
+	let galaxy = new Galaxy()
+	if (typeof id !== "undefined") {
+		galaxy = await Galaxy.findByPk(id)
+	}
+	res.render('galaxies/_form.html.twig', { galaxy, id });
+}
+
+
+
+
+module.exports = { index, show, create, update, remove, form };

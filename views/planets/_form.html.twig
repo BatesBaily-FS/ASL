@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html.twig' %}
+
+	{% block main_content %}
+
+	{% if id is defined and id != null%}
+		<form method="POST" action="/planets/{{ id }}">
+	{% else %}
+		<form method="POST" action="/planets" >
+	{% endif %}
+
+		<div>
+		<label>Name:</label>
+		<input type="text" name="name" value="{{ planet.name }}" />
+		</div>
+
+		<div>
+		<label>Size:</label>
+		<input type="text" name="size" value="{{ planet.size }}" />
+		</div>
+
+		<div>
+		<label>Description:</label>
+		<input type="text" name="description" value="{{ planet.description }}" />
+		</div>
+
+		<div>
+		{% if id is defined and id != null %}
+			<input type="submit" value="Update Planet" />
+		{% else %}
+			<input type="submit" value="Create New Planet" />
+		{% endif %}
+		</div>
+
+	{% endblock %}

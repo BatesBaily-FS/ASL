@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block main_content %}
+	<h1>All Stars<h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Size
+			</th>
+			<th>
+				Description
+			</th>
+		</tr>
+	</thead>
+<tbody>
+	{% for star in stars %}
+<tr>
+	<td>{{ star.name }}</td>
+	<td>{{ star.size }}</td>
+	<td>{{ star.description }}</td>
+	<td>
+		<a href="/stars/{{ star.id }}">Show</a>
+		|
+		<a href="/stars/{{ star.id }}/edit">Edit</a>
+		|
+		<a href="/stars/{{ star.id }}/delete">Delete</a>
+
+	</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h4>Quick Links:</h4>
+	<p>
+		<a href="/stars/new" type="button">Create New Star</a>
+	</p>
+
+{% endblock %}

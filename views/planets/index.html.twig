@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html.twig' %}
+
+	{% block main_content %}
+
+		<h1>All Planets<h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Size
+			</th>
+			<th>
+				Description
+			</th>
+		</tr>
+	</thead>
+<tbody>
+	{% for planet in planets %}
+	<tr>
+		<td>{{ planet.name }}</td>
+		<td>{{ planet.size }}</td>
+		<td>{{ planet.description }}</td>
+		<td>
+			<a href="/planets/{{ planet.id }}">Show</a>
+			|
+			<a href="/planets/{{ planet.id }}/edit">Edit</a>
+			|
+			<a href="/planets/{{ planet.id }}/delete">Delete</a>
+
+		</td>
+	</tr>
+		{% endfor %}
+</tbody>
+</table>
+
+<h4>Quick Links:</h4>
+	<p>
+		<a href="/planets/new" type="button">Create New Planet</a>
+	</p>
+
+{% endblock %}

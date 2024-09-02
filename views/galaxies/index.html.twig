@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block main_content %}
+<h1>All Galaxies<h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Size
+			</th>
+			<th>
+				Description
+			</th>
+		</tr>
+	</thead>
+<tbody>
+	{% for galaxy in galaxies %}
+	<tr>
+		<td>{{ galaxy.name }}</td>
+		<td>{{ galaxy.size }}</td>
+		<td>{{ galaxy.description }}</td>
+		<td>
+			<a href="/galaxies/{{ galaxy.id }}">Show</a>
+			|
+			<a href="/galaxies/{{ galaxy.id }}/edit">Edit</a>
+			|
+			<a href="/galaxies/{{ galaxy.id }}/delete">Delete</a>
+
+		</td>
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h4>Quick Links:</h4>
+	<p>
+		<a href="/galaxies/new">Create New Galaxy</a>
+	</p>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block main_content %}
+
+{% if id is defined and id != null%}
+	<form method="POST" action="/galaxies/{{ id }}" >
+{% else %}
+	<form method="POST" action="/galaxies" >
+{% endif %}
+
+<div>
+	<label>Name:</label>
+	<input type="text" name="name" value="{{ galaxy.name }}" />
+</div>
+
+<div>
+	<label>Size:</label>
+	<input type="text" name="size" value="{{ galaxy.size }}" />
+</div>
+
+<div>
+	<label>Description:</label>
+	<input type="text" name="description" value="{{ galaxy.description }}" />
+</div>
+
+<div>
+	{% if id is defined and id != null %}
+	<input type="submit" value="Update Galaxy" />
+	{% else %}
+	<input type="submit" value="Create New Galaxy" />
+	{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block main_content %}
+	<h1>Edit Planet: {{ planet.id}} {{ planet.name }}</h1>
+
+		<p>
+			Details of Planet: <br />
+			<label>Id:</label> {{planet.id}} <br />
+			<label>Name:</label> {{planet.name}} <br />
+			<label>Size:</label> {{planet.size}} <br />
+			<label>Description:</label> {{planet.description}} <br />
+		</p>
+
+{% endblock %}

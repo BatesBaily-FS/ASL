@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html.twig' %}
+
+	{% block main_content %}
+
+	{% if id is defined and id != null%}
+		<form method="POST" action="/stars/{{ id }}">
+	{% else %}
+		<form method="POST" action="/stars" >
+	{% endif %}
+
+<div>
+	<label>Name:</label>
+		<input type="text" name="name" value="{{ star.name }}" />
+</div>
+
+<div>
+	<label>Size:</label>
+		<input type="text" name="size" value="{{ star.size }}" />
+</div>
+
+<div>
+	<label>Description:</label>
+		<input type="text" name="description" value="{{ star.description }}" />
+</div>
+
+<div>
+	{% if id is defined and id != null %}
+		<input type="submit" value="Update Star" />
+	{% else %}
+		<input type="submit" value="Create New Star" />
+	{% endif %}
+</div>
+
+{% endblock %}

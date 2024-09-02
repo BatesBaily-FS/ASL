@@ -4,7 +4,7 @@ const { Planet, Stars, StarsPlanets } = require('../models');
 	async function index(req, res) {
 	try {
 	const planets = await Planet.findAll();
-	res.status(200).json(planets);
+	res.render('planets/index.html.twig', { planets});
 	} catch (error) {
 	res.status(500).json({ message: error.message });
 	}
@@ -12,11 +12,9 @@ const { Planet, Stars, StarsPlanets } = require('../models');
 
 async function create(req,res) {
 	try {
-	console.log('req.body:', req.body);
 	const {name, size, description} = req.body;
 	const newPlanet = await Planet.create({ name, size, description });
-	console.log('Created planet:', newPlanet.toJSON());
-	res.status(201).json(newPlanet);
+	res.status(302).redirect('/planets/');
 	} catch (error) {
 	res.status(400).json({ message: error.message});
 	}
@@ -28,14 +26,30 @@ async function show(req,res) {
 	if (!planet) {
 	return res.status(404).json({ message: 'Planet not found' });
 	}
-	const updatedPlanet = await Planet.findByPk(id);
-	res.status(200).json(updatedPlanet);
+	res.render('planets/show.html.twig', { planet });
 	} catch (error) {
 	res.status(400).json({ message: error.message });
 	}
 }
 
-async function destroy(req, res) {
+async function update(req, res) {
+	try {
+	const { id } = req.params;
+	const { name, size, description } = req.body;
+	const updatedPlanet = await Planet.update(
+		{ name, size, description },
+		{ where: { id }, returning: true }
+	);
+	if (updatedPlanet[0] === 0) {
+		return res.status(404).json({ message: 'Planet not found' });
+	}
+	res.status(302).redirect(`/planets/${req.params.id}`);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+}
+
+async function remove(req, res) {
 	try {
 	const { id } = req.params;
 	const deleted = await Planet.destroy({
@@ -44,11 +58,13 @@ async function destroy(req, res) {
 	if (deleted === 0 ) {
 	return res.status(404).json({ message: 'Planet not found'});
 	} 
-	res.redirect('/planets', 204);
+	res.status(302).redirect('/planets');
 	} catch (error) {
 	res.status(500).json({ message: error.message });
 		}
 	}
+
+
 async function addStarToPlanet(req, res) {
 	try {
 		const {planetId, starId } = req.params;
@@ -63,6 +79,16 @@ async function addStarToPlanet(req, res) {
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}
+
 }
 
-module.exports = { index, show, create, destroy, addStarToPlanet };
+async function form(req, res) {
+	const { id } = req.params
+	let planet = new Planet ()
+	if (typeof id !== "undefined") {
+		planet = await Planet.findByPk(id)
+	}
+	res.render('planets/_form.html.twig', { planet, id });
+		}
+
+module.exports = { index, show, create, remove, update, addStarToPlanet, form };

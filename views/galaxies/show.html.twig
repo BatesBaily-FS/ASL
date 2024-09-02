@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block main_content %}
+<h1>Edit Galaxy: {{ galaxy.id}} {{ galaxy.name }}</h1>
+
+<p>
+Details of Galaxy: <br />
+<label>Id:</label> {{galaxy.id}} <br />
+<label>Name:</label> {{galaxy.name}} <br />
+<label>Size:</label> {{galaxy.size}} <br />
+<label>Description:</label> {{galaxy.description}} <br />
+</p>
+
+{% endblock %}

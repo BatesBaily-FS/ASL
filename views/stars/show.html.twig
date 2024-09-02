@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block main_content %}
+	<h1>Edit Star: {{ star.id}} {{ star.name }}</h1>
+
+	<p>
+		Details of Star: <br />
+		<label>Id:</label> {{star.id}} <br />
+		<label>Name:</label> {{star.name}} <br />
+		<label>Size:</label> {{star.size}} <br />
+		<label>Description:</label> {{star.description}} <br />
+	</p>
+{% endblock %}
+
+
